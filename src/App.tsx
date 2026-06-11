@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StreetView } from './components/StreetView';
 import { MiniMap } from './components/MiniMap';
 import { RoundResult } from './components/RoundResult';

@@ -47,9 +47,9 @@ export const StreetView: React.FC<StreetViewProps> = ({ lat, lng }) => {
         }}
       >
         <StreetViewPanorama
-          position={{ lat, lng }}
-          visible={true}
           options={{
+            position: { lat, lng },
+            visible: true,
             disableDefaultUI: true,
             showRoadLabels: false,
             clickToGo: true,
