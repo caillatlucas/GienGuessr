@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import { LocationData } from '../utils/gameData';
+import type { LocationData } from '../utils/gameData';
 import { MapPin, Target } from 'lucide-react';
 
 interface RoundResultProps {

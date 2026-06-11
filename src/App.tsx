@@ -3,7 +3,7 @@ import { StreetView } from './components/StreetView';
 import { MiniMap } from './components/MiniMap';
 import { RoundResult } from './components/RoundResult';
 import { GameSummary } from './components/GameSummary';
-import { getRandomLocations, LocationData } from './utils/gameData';
+import { getRandomLocations, type LocationData } from './utils/gameData';
 import { calculateDistance, calculateScore } from './utils/distance';
 import { Map, Navigation } from 'lucide-react';
 import './index.css';
