@@ -55,7 +55,7 @@ export const MiniMap: React.FC<MiniMapProps> = ({ onMarkerPlaced, isInteractive,
   };
 
   return (
-    <div className={`mini-map-container ${!isInteractive ? 'read-only' : ''}`}>
+    <div className={`mini-map-container ${!isInteractive ? 'read-only' : ''}`} style={{ width: '100%', height: '100%' }}>
       <MapContainer 
         center={center} 
         zoom={13} 
