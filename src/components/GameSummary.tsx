@@ -1,13 +1,14 @@
 import React from 'react';
-import { Trophy, RotateCcw } from 'lucide-react';
+import { Trophy, RotateCcw, Swords } from 'lucide-react';
 
 interface GameSummaryProps {
   totalScore: number;
   maxScore: number;
   onReplay: () => void;
+  onRematch: () => void;
 }
 
-export const GameSummary: React.FC<GameSummaryProps> = ({ totalScore, maxScore, onReplay }) => {
+export const GameSummary: React.FC<GameSummaryProps> = ({ totalScore, maxScore, onReplay, onRematch }) => {
   const percentage = Math.round((totalScore / maxScore) * 100);
   
   let message = "";
@@ -33,10 +34,17 @@ export const GameSummary: React.FC<GameSummaryProps> = ({ totalScore, maxScore, 
 
         <p className="summary-message">{message}</p>
 
-        <button className="primary-btn mt-6" onClick={onReplay}>
-          <RotateCcw size={20} style={{ marginRight: '8px' }} />
-          Rejouer une partie
-        </button>
+        <div className="summary-actions mt-6">
+          <button className="primary-btn" onClick={onReplay}>
+            <RotateCcw size={20} style={{ marginRight: '8px' }} />
+            Nouvelle partie
+          </button>
+          
+          <button className="secondary-btn" onClick={onRematch}>
+            <Swords size={20} style={{ marginRight: '8px' }} />
+            Revanche (Mêmes lieux)
+          </button>
+        </div>
       </div>
     </div>
   );

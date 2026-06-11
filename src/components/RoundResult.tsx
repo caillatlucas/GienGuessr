@@ -41,17 +41,10 @@ export const RoundResult: React.FC<RoundResultProps> = ({
   onNextRound,
   isLastRound
 }) => {
-  const mapRef = useRef<L.Map>(null);
-
-  useEffect(() => {
-    if (mapRef.current) {
-      const bounds = L.latLngBounds(
-        [actualLocation.lat, actualLocation.lng],
-        [guessedPosition.lat, guessedPosition.lng]
-      );
-      mapRef.current.fitBounds(bounds, { padding: [50, 50] });
-    }
-  }, [actualLocation, guessedPosition]);
+  const bounds = L.latLngBounds(
+    [actualLocation.lat, actualLocation.lng],
+    [guessedPosition.lat, guessedPosition.lng]
+  );
 
   const polylinePositions: [number, number][] = [
     [actualLocation.lat, actualLocation.lng],
@@ -84,7 +77,8 @@ export const RoundResult: React.FC<RoundResultProps> = ({
 
         <div className="result-map-wrapper">
           <MapContainer 
-            ref={mapRef}
+            bounds={bounds}
+            boundsOptions={{ padding: [50, 50] }}
             style={{ height: '100%', width: '100%', borderRadius: '8px' }}
             zoomControl={false}
             scrollWheelZoom={false}

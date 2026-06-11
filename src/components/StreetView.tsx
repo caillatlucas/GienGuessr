@@ -37,7 +37,7 @@ export const StreetView: React.FC<StreetViewProps> = ({ lat, lng }) => {
   }
 
   return (
-    <div className="street-view-container">
+    <div className="street-view-container" key={`${lat}-${lng}`}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{ lat, lng }}

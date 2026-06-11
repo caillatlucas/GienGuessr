@@ -10,13 +10,12 @@ import './index.css';
 
 type GameState = 'home' | 'playing' | 'roundResult' | 'gameSummary';
 
-const TOTAL_ROUNDS = 5;
-
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>('home');
   const [locations, setLocations] = useState<LocationData[]>([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
+  const [selectedRounds, setSelectedRounds] = useState(5);
   
   // Current round state
   const [guessedPosition, setGuessedPosition] = useState<{lat: number, lng: number} | null>(null);
@@ -27,7 +26,15 @@ const App: React.FC = () => {
   const [isMapExpanded, setIsMapExpanded] = useState(false);
 
   const startGame = () => {
-    setLocations(getRandomLocations(TOTAL_ROUNDS));
+    setLocations(getRandomLocations(selectedRounds));
+    setCurrentRoundIndex(0);
+    setTotalScore(0);
+    setGameState('playing');
+    setGuessedPosition(null);
+    setIsMapExpanded(false);
+  };
+
+  const startRematch = () => {
     setCurrentRoundIndex(0);
     setTotalScore(0);
     setGameState('playing');
@@ -53,7 +60,7 @@ const App: React.FC = () => {
   };
 
   const nextRound = () => {
-    if (currentRoundIndex + 1 >= TOTAL_ROUNDS) {
+    if (currentRoundIndex + 1 >= locations.length) {
       setGameState('gameSummary');
     } else {
       setCurrentRoundIndex(prev => prev + 1);
@@ -74,10 +81,24 @@ const App: React.FC = () => {
             </h1>
             <p className="subtitle">L'expérience exclusive de Gien (45500)</p>
             <div className="rules">
-              <p>📍 5 manches pour explorer les lieux emblématiques.</p>
+              <p>📍 Choisissez le nombre de manches pour explorer les lieux emblématiques.</p>
               <p>🎯 Placez votre marqueur sur la carte pour deviner où vous êtes.</p>
               <p>🏆 Plus vous êtes proche, plus vous marquez de points (Max 5000/manche).</p>
             </div>
+
+            <div className="round-selector">
+              <label>Nombre de manches :</label>
+              <select 
+                value={selectedRounds} 
+                onChange={(e) => setSelectedRounds(Number(e.target.value))}
+                className="round-select"
+              >
+                <option value={3}>3 Manches</option>
+                <option value={5}>5 Manches</option>
+                <option value={7}>7 Manches</option>
+              </select>
+            </div>
+
             <button className="primary-btn pulse" onClick={startGame}>
               <Navigation size={20} style={{ marginRight: '8px' }} />
               Démarrer la partie
@@ -97,7 +118,7 @@ const App: React.FC = () => {
             <div className="score-board glass-panel">
               <div className="score-item">
                 <span className="label">Manche</span>
-                <span className="value">{currentRoundIndex + 1} / {TOTAL_ROUNDS}</span>
+                <span className="value">{currentRoundIndex + 1} / {locations.length}</span>
               </div>
               <div className="score-item">
                 <span className="label">Score Total</span>
@@ -131,7 +152,7 @@ const App: React.FC = () => {
               distance={roundDistance}
               score={roundScore}
               onNextRound={nextRound}
-              isLastRound={currentRoundIndex + 1 >= TOTAL_ROUNDS}
+              isLastRound={currentRoundIndex + 1 >= locations.length}
             />
           )}
         </div>
@@ -140,8 +161,9 @@ const App: React.FC = () => {
       {gameState === 'gameSummary' && (
         <GameSummary 
           totalScore={totalScore} 
-          maxScore={TOTAL_ROUNDS * 5000} 
+          maxScore={locations.length * 5000} 
           onReplay={startGame} 
+          onRematch={startRematch}
         />
       )}
     </div>
